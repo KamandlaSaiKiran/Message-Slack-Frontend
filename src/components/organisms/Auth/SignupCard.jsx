@@ -3,13 +3,15 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { useNavigate } from "react-router-dom"
 export const SignupCard=()=>{
+    const navigate=useNavigate();
     const [signupForm,setSignupForm]=useState({
         email: '',
         password:'',
         confirmPassword:'',
         username:''
-    })
+    });
     return(
         <Card className='w-full h-full'>
             <CardHeader>
@@ -29,7 +31,8 @@ export const SignupCard=()=>{
                 <Input
                 placeholder="Password"
                 required
-                onChange={(e)=>setSignupForm({...signupForm,password:e.target.value})}
+                onChange={(e)=>
+                setSignupForm({...signupForm,password:e.target.value})}
                 value={signupForm.password}
                 type="password"
                 disabled={false}
@@ -46,7 +49,7 @@ export const SignupCard=()=>{
                 placeholder="Your Username"
                 required
                 onChange={(e)=>setSignupForm({...signupForm,username:e.target.value})}
-                value={signupForm.email}
+                value={signupForm.username}
                 type="text"
                 disabled={false}
                 />
@@ -68,7 +71,9 @@ export const SignupCard=()=>{
                 className="text-s text-muted-foreground mt-4"
                 >
                     Already have an account ? {' '}
-                    <span className="text-sky-500 hover:underline cursor-pointer">
+                    <span
+                     className="text-sky-500 hover:underline cursor-pointer"
+                     onClick={()=>navigate('/auth/signin')}>
                         Sign In
                     </span>
                 </p>
