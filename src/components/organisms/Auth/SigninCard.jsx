@@ -1,16 +1,21 @@
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {FaCheck} from 'react-icons/fa'
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { LucideLoader2, TriangleAlert } from "lucide-react"
 
-export const SigninCard=()=>{
-    const navigate=useNavigate();
-    const [signinForm,setSigninForm]=useState({
-        email:'',
-        password:''
-    })
+
+export const SigninCard=({
+    signinForm,
+    setSigninForm,
+    isPending,
+    isSuccess,
+    error,
+   validationError,
+    onSigninFormSubmit,
+    navigate})=>{
+    
     return(
         <Card>
             <CardHeader>
@@ -20,11 +25,38 @@ export const SigninCard=()=>{
                 <CardDescription>
                         Sign In to access your account
                 </CardDescription>
+                {validationError && (
+                    <div className="bg-destructive/15 p-4 rounded-md flex items-center gap-x-2
+                     text-sm text-destructive mb-6">
+                     <TriangleAlert className="size-5"/>
+                     <p>{validationError.message}</p>
+
+                    </div>
+                )}
+                {error&&(
+                    <div className="bg-destructive/15 p-4 rounded-md flex items-center gap-x-2
+                     text-sm text-destructive mb-6">
+                        <TriangleAlert className="size-5"/>
+                     <p>{error.message}</p>
+                    </div>
+                )}
+                {isSuccess&&(
+                     <div className="bg-destructive/15 p-4 rounded-md flex items-center gap-x-2
+                     text-sm text-destructive mb-6">
+                       <FaCheck className="size-5"/>
+                       <p>
+                        Successfully signed in. You will be redirected to the homepage page in a few seconds.
+                        <LucideLoader2 className="animate-spin ml-2"/>
+                       </p>
+
+                    </div>
+                )
+                }
             </CardHeader>
             <CardContent>
-                <form className="space-y-3">
+                <form className="space-y-3" onSubmit={onSigninFormSubmit}>
                  <Input
-                    disabled={false}
+                    disabled={isPending}
                     placeholder="Email"
                     required
                     type="email"
@@ -32,7 +64,7 @@ export const SigninCard=()=>{
                     onChange={(e)=>setSigninForm({...signinForm,email:e.target.value})}
                  />
                   <Input
-                    disabled={false}
+                    disabled={isPending}
                     placeholder="Password"
                     required
                     type="password"
@@ -40,7 +72,7 @@ export const SigninCard=()=>{
                     onChange={(e)=>setSigninForm({...signinForm,password:e.target.value})}
                  />
                  <Button className="w-full"
-                 disabled={false}
+                 disabled={isPending}
                  size="lg"
                  type="submit">
                         Continue

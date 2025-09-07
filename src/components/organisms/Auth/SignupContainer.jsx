@@ -52,6 +52,7 @@ export const SignupContainer=()=>{
         setSignupForm={setSignupForm}
         onSignupFormSubmit={onSignupFormSubmit}
         validationError={validationError}
+        navigate={navigate}
         />
     )
 }

@@ -1,10 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { useState } from "react"
 import {FaCheck} from 'react-icons/fa'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { useNavigate } from "react-router-dom"
 import { LucideLoader2, TriangleAlert } from "lucide-react"
 export const SignupCard=({
     signupForm,
@@ -14,6 +12,7 @@ export const SignupCard=({
     isPending,
     isSuccess,
     error,
+    navigate
 
 })=>{
    
