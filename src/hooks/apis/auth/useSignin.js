@@ -1,9 +1,11 @@
 import { signInRequest } from "@/apis/auth";
+import { useAuth } from "@/hooks/context/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 
 export const useSignin = ()=>{
     const {toast} = useToast();
+    const {setAuth} = useAuth();
     const {isPending,isSuccess,error,mutateAsync:signinMutation}=useMutation({
             mutationFn:signInRequest,
             onSuccess: (response) => {
@@ -11,6 +13,12 @@ export const useSignin = ()=>{
             const userObject = JSON.stringify(response.data);
             localStorage.setItem('user',userObject);
             localStorage.setItem('token',response.data.token);
+
+            setAuth({
+                token:response.data.token,
+                user: response.data,
+                isLoading:false
+            })
 
             toast({
                 title:'Successfully signed in',
