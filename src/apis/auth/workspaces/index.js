@@ -22,7 +22,7 @@ export const fetchWorkspaceRequest = async ({token})=>{
             }
         });
         console.log('Respone in fetch Workspace request',response);
-        return response?.data;
+        return response?.data?.data;
     } catch(error){
         console.log('Error in fetching workspace request',error);
         throw  error.response.data;
