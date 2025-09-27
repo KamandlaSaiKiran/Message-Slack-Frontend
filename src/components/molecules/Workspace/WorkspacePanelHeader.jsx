@@ -3,6 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { useAuth } from "@/hooks/context/useAuth";
 import { useWorkspacePreferencesModal } from "@/hooks/context/useWorkspacePreferencesModal";
 import { ChevronDownIcon, ListFilterIcon, SquarePenIcon } from "lucide-react";
+import { useEffect } from "react";
 
 export const WorkspacePanelHeader=({workspace})=>{
     const workspacemembers = workspace?.members;
@@ -10,6 +11,11 @@ export const WorkspacePanelHeader=({workspace})=>{
     const isLoggedInUserAdminOfWorkspace = workspacemembers?.find(member=>member.memberId===auth?.user?._id && 
         member.role==='admin');
     const {setOpenPreferences,setInitialValue} = useWorkspacePreferencesModal();
+    const {setWorkspace} = useWorkspacePreferencesModal();
+
+    useEffect(()=>{
+        setWorkspace(workspace)
+    },[]);
 
     
 
