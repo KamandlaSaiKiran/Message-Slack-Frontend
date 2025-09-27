@@ -30,6 +30,11 @@ export const WorkspacePreferencesModal = ()=>{
                                                 Edit
                                             </p>
                                     </div>
+
+                            <p className="text-sm">
+                                {initialValue}
+                            </p>
+
                         </div>
 
                         
@@ -39,7 +44,7 @@ export const WorkspacePreferencesModal = ()=>{
                         hover:bg-gray-50">
                             <TrashIcon className="size-5"/>
 
-                            <p>
+                            <p className="text-sm font-semibold">
                                 Delete Workspace
                             </p>
                         </button>
