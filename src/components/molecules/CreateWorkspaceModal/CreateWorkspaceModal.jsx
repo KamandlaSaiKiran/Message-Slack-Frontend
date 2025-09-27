@@ -6,9 +6,11 @@ import { Dialog,DialogHeader, DialogContent, DialogTitle } from "@/components/ui
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { useQueryClient } from "@tanstack/react-query"
 
 
 export const CreateWorkspaceModal = ()=>{
+    const queryClient= useQueryClient();
     const {openCreateWorkspaceModal,setOpenCreateWorkspaceModal}=useCreateWorkspaceModal();
     const {isPending,createWorkspaceMutation}= useCreateWorkspace();
     const [workspaceDetails,setWorkspaceDetails] = useState({
@@ -25,6 +27,7 @@ export const CreateWorkspaceModal = ()=>{
             const data = await createWorkspaceMutation({name:workspaceDetails.workspaceName,description:workspaceDetails.description});
             console.log('Created Workspace',data);
             navigate(`/workspaces/${data._id}`);
+            queryClient.invalidateQueries('fetchWorkspaces');
         }catch(error){
             console.log('Not able to create a workspace',error);
         }finally{

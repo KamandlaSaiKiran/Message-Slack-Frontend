@@ -14,7 +14,7 @@ export const WorkspacePanelHeader=({workspace})=>{
     const {setWorkspace} = useWorkspacePreferencesModal();
 
     useEffect(()=>{
-        setWorkspace(workspace)
+        setWorkspace(workspace);
     },[]);
 
     
