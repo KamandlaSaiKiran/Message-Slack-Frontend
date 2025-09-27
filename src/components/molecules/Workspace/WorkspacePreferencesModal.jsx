@@ -5,6 +5,7 @@ import { useDeleteWorkspace } from "@/hooks/apis/workspaces/useDeleteWorkspace";
 import { useUpdateWorkspace } from "@/hooks/apis/workspaces/useUpdateWorkspace";
 import { useWorkspacePreferencesModal } from "@/hooks/context/useWorkspacePreferencesModal"
 import { useToast } from "@/hooks/use-toast";
+import { useConfirm } from "@/hooks/useConfirm";
 import { useQueryClient } from "@tanstack/react-query";
 import { TrashIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -18,6 +19,14 @@ export const WorkspacePreferencesModal = ()=>{
     const [editOpen,setEditOpen]= useState(false);
     const {isPending,updateWorkspaceMutation}=useUpdateWorkspace(workspaceId);
     const [renameValue,setRenameValue]=useState(workspace?.name);
+    const {confirmation,ConfirmDialog}=useConfirm({
+        title:'Do you want to delete the workspace?',
+        message:'This action cannot be undone'
+    })
+     const {confirmation:updateConfirmation,ConfirmDialog:UpdateDialog}=useConfirm({
+        title:'Do you want to update the workspace?',
+        message:'This action cannot be undone'
+    })
 
     const {deleteWorkspaceMutation} = useDeleteWorkspace(workspaceId);
     const {toast} = useToast();
@@ -32,6 +41,11 @@ export const WorkspacePreferencesModal = ()=>{
 
     async function handleDelete() {
         try{
+            const ok = await confirmation();
+            console.log('Confirmation received');
+            if(!ok){
+                return;
+            }
             await deleteWorkspaceMutation();
             navigate('/home');
             queryClient.invalidateQueries('fetchWorkspaces');
@@ -55,6 +69,10 @@ export const WorkspacePreferencesModal = ()=>{
     async function handleFormSubmit(e){
         e.preventDefault();
         try{
+            const ok = await updateConfirmation();
+            if(!ok){
+                return;
+            }
             await updateWorkspaceMutation(renameValue);
             queryClient.invalidateQueries(`fetchWorkspaceById-${workspace?._id}`);
             setOpenPreferences(false);
@@ -71,6 +89,10 @@ export const WorkspacePreferencesModal = ()=>{
         }
     }
     return(
+        <>
+        <ConfirmDialog/>
+        <UpdateDialog/>
+        
         <Dialog open={openPreferences} onOpenChange={handleClose}>
                    <DialogContent>
                         <DialogHeader>
@@ -168,5 +190,6 @@ export const WorkspacePreferencesModal = ()=>{
                  </div>       
                    </DialogContent>
         </Dialog>
+    </>
     )
 }
