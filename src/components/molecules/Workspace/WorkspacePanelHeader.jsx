@@ -72,7 +72,9 @@ export const WorkspacePanelHeader=({workspace})=>{
                                     Preferences
                             </DropdownMenuItem>
                             <DropdownMenuSeparator/>
-                            <DropdownMenuItem className="cursor-pointer py-5">
+                            <DropdownMenuItem 
+                            className="cursor-pointer py-5"
+                            onClick={() => {setOpenInviteModal(true);}}>
                                 Invite people to {workspace?.name}
                             </DropdownMenuItem>
                         </>
