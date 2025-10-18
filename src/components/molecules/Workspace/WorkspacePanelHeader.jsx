@@ -8,8 +8,7 @@ import { useEffect } from "react";
 export const WorkspacePanelHeader=({workspace})=>{
     const workspacemembers = workspace?.members;
     const {auth} = useAuth();
-    const isLoggedInUserAdminOfWorkspace = workspacemembers?.find(member=>member.memberId===auth?.user?._id && 
-        member.role==='admin');
+    const isLoggedInUserAdminOfWorkspace = workspacemembers?.find(member => member.memberId._id === auth?.user?._id && member.role === 'admin');
     const {setOpenPreferences,setInitialValue} = useWorkspacePreferencesModal();
     const {setWorkspace} = useWorkspacePreferencesModal();
 
