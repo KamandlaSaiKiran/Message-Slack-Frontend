@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/context/useAuth";
+import { WorkspaceInviteModal } from '@/components/organisms/Modals/WorkspaceInviteModal';
 import { useWorkspacePreferencesModal } from "@/hooks/context/useWorkspacePreferencesModal";
 import { ChevronDownIcon, ListFilterIcon, SquarePenIcon } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState} from "react";
 
 export const WorkspacePanelHeader=({workspace})=>{
     const workspacemembers = workspace?.members;
@@ -11,6 +12,9 @@ export const WorkspacePanelHeader=({workspace})=>{
     const isLoggedInUserAdminOfWorkspace = workspacemembers?.find(member => member.memberId._id === auth?.user?._id && member.role === 'admin');
     const {setOpenPreferences,setInitialValue} = useWorkspacePreferencesModal();
     const {setWorkspace} = useWorkspacePreferencesModal();
+    const [openInviteModal, setOpenInviteModal] = useState(false);
+
+
 
     useEffect(()=>{
         setWorkspace(workspace);
@@ -19,6 +23,14 @@ export const WorkspacePanelHeader=({workspace})=>{
     
 
    return(
+        <>
+            <WorkspaceInviteModal 
+                openInviteModal={openInviteModal}
+                setOpenInviteModal={setOpenInviteModal}
+                workspaceName={workspace?.name}
+                joinCode={workspace?.joinCode}
+
+            />
         <div
         className="flex items-center justify-between px-4 h-[50px] gap-0.5">
             <DropdownMenu>
@@ -77,5 +89,6 @@ export const WorkspacePanelHeader=({workspace})=>{
                     </Button>
             </div>
         </div>  
+    </>
    )
 }
